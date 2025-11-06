@@ -265,7 +265,7 @@ async def predict_image(request: PredictRequest):
                 colors = ['red', 'blue', 'green', 'yellow', 'purple', 'orange']
                 
                 try:
-                    font = ImageFont.truetype("msyh.ttc", 20)
+                    font = ImageFont.truetype("MSYH.ttc", 100)
                 except:
                     font = ImageFont.load_default()
                 
@@ -322,7 +322,7 @@ async def predict_image(request: PredictRequest):
                     overlay_pil = Image.fromarray(cv2.cvtColor(overlay, cv2.COLOR_BGR2RGB))
                     draw = ImageDraw.Draw(overlay_pil)
                     try:
-                        font = ImageFont.truetype("msyh.ttc", 26)
+                        font = ImageFont.truetype("MSYH.ttc", 100)
                     except:
                         font = ImageFont.load_default()
                     draw.text((10, 30), label_text, font=font, fill=(0, 255, 0))
