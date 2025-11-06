@@ -265,7 +265,7 @@ async def predict_image(request: PredictRequest):
                 colors = ['red', 'blue', 'green', 'yellow', 'purple', 'orange']
                 
                 try:
-                    font = ImageFont.truetype("MSYH.ttc", 50)
+                    font = ImageFont.truetype("./MSYH.TTC", 15)
                 except:
                     font = ImageFont.load_default()
                 
@@ -300,11 +300,11 @@ async def predict_image(request: PredictRequest):
             try:
                 # 修复segNet模型加载
                 from segNet.test_fixed import WaterSegmentationPredictor
-                
                 # 修改segNet的模型加载方式
                 predictor = WaterSegmentationPredictor(model_path)
                 mask, original_image, prob = predictor.predict(input_file, confidence)
                 result_image_path = os.path.join(result_dir, f"{file_id}_{model_type}.jpg")
+
                 
                 if float(prob) < float(confidence):
                     cv2.imwrite(result_image_path, original_image)
@@ -312,7 +312,6 @@ async def predict_image(request: PredictRequest):
                     vehicle_stats = {"水面": 0}
                     print(f"segNet低于阈值(置信度={prob:.2f} < 阈值={confidence:.2f})，已保存原图: {result_image_path}")
                 else:
-                    # 创建彩色mask并叠加
                     colored_mask = np.zeros_like(original_image)
                     colored_mask[mask > 0] = [0, 255, 0]
                     overlay = original_image.copy()
@@ -322,9 +321,10 @@ async def predict_image(request: PredictRequest):
                     overlay_pil = Image.fromarray(cv2.cvtColor(overlay, cv2.COLOR_BGR2RGB))
                     draw = ImageDraw.Draw(overlay_pil)
                     try:
-                        font = ImageFont.truetype("MSYH.ttc", 50)
-                    except:
+                        font = ImageFont.truetype("MSYH.TTC", 30)
+                    except Exception as font_err:
                         font = ImageFont.load_default()
+                    
                     draw.text((10, 30), label_text, font=font, fill=(0, 255, 0))
                     overlay = cv2.cvtColor(np.array(overlay_pil), cv2.COLOR_RGB2BGR)
                     cv2.imwrite(result_image_path, overlay)
@@ -346,6 +346,8 @@ async def predict_image(request: PredictRequest):
                     
             except Exception as e:
                 print(f"segNet模型加载失败: {e}")
+                import traceback
+                traceback.print_exc()
                 raise HTTPException(status_code=500, detail=f"segNet模型加载失败: {str(e)}")
         
         else:
@@ -426,4 +428,4 @@ if __name__ == "__main__":
     print("📚 API文档: http://localhost:8000/docs")
     print("💻 运行设备: CPU")
     print(f"🔥 PyTorch版本: {torch.__version__}")
-    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True, log_level="info")
+    uvicorn.run("main-cpu:app", host="0.0.0.0", port=8000, reload=True, log_level="info")
