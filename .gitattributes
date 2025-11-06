@@ -6,3 +6,7 @@ segNet/segNet_data/** filter=lfs diff=lfs merge=lfs -text
 segment/** filter=lfs diff=lfs merge=lfs -text
 uploads/** filter=lfs diff=lfs merge=lfs -text
 *.zip filter=lfs diff=lfs merge=lfs -text
+*.safetensors filter=lfs diff=lfs merge=lfs -text
+*.bin filter=lfs diff=lfs merge=lfs -text
+*.h5 filter=lfs diff=lfs merge=lfs -text
+*.onnx filter=lfs diff=lfs merge=lfs -text
