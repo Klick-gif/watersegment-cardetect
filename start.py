@@ -61,6 +61,7 @@ def main():
     try:
         uvicorn.run(
             "main:app",
+            host="0.0.0.0",  # 添加这一行
             port=8000,
             reload=True,
             log_level="info"
