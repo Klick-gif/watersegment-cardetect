@@ -265,7 +265,7 @@ async def predict_image(request: PredictRequest):
                 colors = ['red', 'blue', 'green', 'yellow', 'purple', 'orange']
                 
                 try:
-                    font = ImageFont.truetype("MSYH.ttc", 100)
+                    font = ImageFont.truetype("MSYH.ttc", 50)
                 except:
                     font = ImageFont.load_default()
                 
@@ -322,7 +322,7 @@ async def predict_image(request: PredictRequest):
                     overlay_pil = Image.fromarray(cv2.cvtColor(overlay, cv2.COLOR_BGR2RGB))
                     draw = ImageDraw.Draw(overlay_pil)
                     try:
-                        font = ImageFont.truetype("MSYH.ttc", 100)
+                        font = ImageFont.truetype("MSYH.ttc", 50)
                     except:
                         font = ImageFont.load_default()
                     draw.text((10, 30), label_text, font=font, fill=(0, 255, 0))
@@ -426,4 +426,4 @@ if __name__ == "__main__":
     print("📚 API文档: http://localhost:8000/docs")
     print("💻 运行设备: CPU")
     print(f"🔥 PyTorch版本: {torch.__version__}")
-    uvicorn.run(app, host="0.0.0.0", port=8000, log_level="info")
+    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True, log_level="info")
