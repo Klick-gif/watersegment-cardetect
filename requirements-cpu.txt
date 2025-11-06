@@ -1,0 +1,27 @@
+# CPU优化版本的依赖文件
+# 基础依赖
+aiofiles==23.2.1
+annotated-types==0.7.0
+anyio==3.7.1
+fastapi==0.104.1
+uvicorn==0.24.0
+python-multipart==0.0.6
+
+# 图像处理
+opencv-python==4.8.1.78
+Pillow==10.1.0
+numpy==1.26.4
+
+# 机器学习（CPU版本）
+torch==2.7.1+cpu
+torchvision==0.22.1+cpu
+torchaudio==2.7.1+cpu
+ultralytics==8.3.217
+transformers==4.57.1
+scikit-learn==1.7.2
+scipy==1.15.3
+
+# 其他必要依赖
+pydantic==2.12.3
+requests==2.32.5
+tqdm==4.67.1

@@ -1,0 +1,24 @@
+version: '3.8'
+
+services:
+  mlsj-cpu:
+    build: .
+    container_name: mlsj-cpu
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./uploads:/app/uploads
+      - ./results:/app/results
+      - ./detect:/app/detect
+      - ./segment:/app/segment
+      - ./segNet:/app/segNet
+    restart: unless-stopped
+    environment:
+      - CUDA_VISIBLE_DEVICES=-1
+      - PYTORCH_CUDA_ALLOC_CONF=
+    deploy:
+      resources:
+        limits:
+          memory: 4G
+        reservations:
+          memory: 2G
