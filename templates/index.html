@@ -19,7 +19,7 @@
         }
 
         .container {
-            max-width: 1400px;
+            max-width: 1600px;
             margin: 0 auto;
             background: white;
             border-radius: 15px;
@@ -84,18 +84,30 @@
             display: none;
         }
 
-        .controls {
+        .controls-container {
             display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            gap: 20px;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
             margin-bottom: 30px;
         }
 
-        .control-group {
+        .control-panel {
             background: white;
-            padding: 20px;
+            padding: 25px;
             border-radius: 10px;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .control-panel h3 {
+            margin-bottom: 20px;
+            color: #333;
+            font-size: 1.3em;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 10px;
+        }
+
+        .control-group {
+            margin-bottom: 20px;
         }
 
         .control-group label {
@@ -131,6 +143,7 @@
             cursor: pointer;
             transition: all 0.3s ease;
             font-weight: bold;
+            width: 100%;
         }
 
         .btn:hover {
@@ -145,29 +158,46 @@
             box-shadow: none;
         }
 
-        .results-section {
-            display: none;
-            margin-top: 30px;
-        }
-
-        .image-comparison {
+        .results-container {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 20px;
+            gap: 30px;
             margin-bottom: 30px;
         }
 
-        .image-container {
+        .result-panel {
             background: white;
             border-radius: 10px;
-            padding: 20px;
+            padding: 25px;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .result-panel h3 {
+            margin-bottom: 20px;
+            color: #333;
+            font-size: 1.3em;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 10px;
+        }
+
+        .original-image-section {
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
             text-align: center;
         }
 
-        .image-container h3 {
-            margin-bottom: 15px;
+        .original-image-section h3 {
+            margin-bottom: 20px;
             color: #333;
+            font-size: 1.5em;
+        }
+
+        .image-container {
+            text-align: center;
+            margin-bottom: 20px;
         }
 
         .image-container img {
@@ -177,22 +207,43 @@
             box-shadow: 0 4px 15px rgba(0,0,0,0.1);
         }
 
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 40px;
+        }
+
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
         .stats-section {
             background: #f8f9fa;
             border-radius: 10px;
-            padding: 25px;
+            padding: 20px;
             margin-bottom: 20px;
         }
 
         .stats-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
             gap: 15px;
         }
 
         .stat-item {
             background: white;
-            padding: 20px;
+            padding: 15px;
             border-radius: 8px;
             text-align: center;
             box-shadow: 0 2px 8px rgba(0,0,0,0.1);
@@ -213,15 +264,16 @@
         .detection-list {
             background: white;
             border-radius: 10px;
-            padding: 20px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 15px;
+            max-height: 300px;
+            overflow-y: auto;
         }
 
         .detection-item {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 15px;
+            padding: 12px;
             border-bottom: 1px solid #eee;
             transition: background-color 0.3s ease;
         }
@@ -254,25 +306,9 @@
             font-size: 0.9em;
         }
 
-        .loading {
-            display: none;
+        .download-section {
             text-align: center;
-            padding: 40px;
-        }
-
-        .spinner {
-            border: 4px solid #f3f3f3;
-            border-top: 4px solid #667eea;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 20px;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+            margin-top: 20px;
         }
 
         .error {
@@ -293,16 +329,16 @@
             border: 1px solid #c3e6cb;
         }
 
-        @media (max-width: 768px) {
-            .controls {
-                grid-template-columns: 1fr;
-            }
-            
-            .image-comparison {
-                grid-template-columns: 1fr;
-            }
-            
-            .stats-grid {
+        .empty-result {
+            text-align: center;
+            color: #999;
+            padding: 40px;
+            font-size: 1.1em;
+        }
+
+        @media (max-width: 1200px) {
+            .controls-container,
+            .results-container {
                 grid-template-columns: 1fr;
             }
         }
@@ -312,7 +348,7 @@
     <div class="container">
         <div class="header">
             <h1>🌊 积水识别和车辆淹没部位判别系统</h1>
-            <p>基于YOLO11的智能图像分析平台</p>
+            <p>基于YOLO11、DETR、segNet的智能图像分析平台</p>
         </div>
 
         <div class="main-content">
@@ -325,73 +361,88 @@
                 </div>
             </div>
 
-            <!-- 控制面板 -->
-            <div class="controls">
-                <div class="control-group">
-                    <label for="modelSelect">选择模型</label>
-                    <select id="modelSelect">
-                        <option value="detect">目标检测--YOLO11</option>
-                        <option value="detr">目标检测--DETR</option>
-                        <option value="segment">图像分割--YOLO11</option>
-                        <option value="segnet">图像分割--segNet</option>
-                    </select>
+            <!-- 原始图像显示 -->
+            <div class="original-image-section" id="originalImageSection" style="display: none;">
+                <h3>📷 原始图像</h3>
+                <div class="image-container">
+                    <img id="originalImage" src="" alt="原始图像">
                 </div>
-                <div class="control-group">
-                    <label for="confidenceSlider">置信度阈值</label>
-                    <input type="range" id="confidenceSlider" min="0.3" max="0.9" step="0.05" value="0.60">
-                    <div id="confidenceValue">0.6</div>
-                </div>
-                <div class="control-group">
-                    <button class="btn" id="predictBtn" onclick="predictImage()" disabled>
-                        🚀 开始预测
-                    </button>
-                </div>
-            </div>
-
-            <!-- 加载状态 -->
-            <div class="loading" id="loading">
-                <div class="spinner"></div>
-                <div>正在分析图像，请稍候...</div>
-            </div>
-
-            <!-- 结果显示区域 -->
-            <div class="results-section" id="resultsSection">
-                <!-- 图像对比 -->
-                <div class="image-comparison">
-                    <div class="image-container">
-                        <h3>📷 原始图像</h3>
-                        <img id="originalImage" src="" alt="原始图像">
-                    </div>
-                    <div class="image-container">
-                        <h3>🎯 检测结果</h3>
-                        <img id="resultImage" src="" alt="检测结果">
-                    </div>
-                </div>
-
-                <!-- 统计信息 -->
-                <div class="stats-section">
-                    <h3>📊 检测统计</h3>
-                    <div class="stats-grid" id="statsGrid">
-                        <!-- 统计项将通过JavaScript动态生成 -->
-                    </div>
-                </div>
-
-                <!-- 检测详情 -->
-                <div class="detection-list">
-                    <h3>🔍 检测详情</h3>
-                    <div id="detectionList">
-                        <!-- 检测项将通过JavaScript动态生成 -->
-                    </div>
-                </div>
-
-                <!-- 下载按钮 -->
-                <div style="text-align: center; margin-top: 30px;">
-                    <button class="btn" onclick="downloadResult()" style="margin-right: 15px;">
-                        📥 下载检测结果
-                    </button>
-                    <button class="btn" onclick="downloadOriginal()" style="background: linear-gradient(135deg, #28a745 0%, #20c997 100%);">
+                <div class="download-section">
+                    <button class="btn" onclick="downloadOriginal()" style="width: auto; background: linear-gradient(135deg, #28a745 0%, #20c997 100%);">
                         📥 下载原始图片
                     </button>
+                </div>
+            </div>
+
+            <!-- 控制面板 -->
+            <div class="controls-container">
+                <!-- 目标检测控制 -->
+                <div class="control-panel">
+                    <h3>🎯 目标检测 - 车辆淹没部位识别</h3>
+                    <div class="control-group">
+                        <label for="detectModelSelect">检测模型</label>
+                        <select id="detectModelSelect" onchange="updateDetectConfidenceRange()">
+                            <option value="detect">YOLO11</option>
+                            <option value="detr">DETR</option>
+                        </select>
+                    </div>
+                    <div class="control-group">
+                        <label for="detectConfidenceSlider">置信度阈值: <span id="detectConfidenceValue">0.60</span></label>
+                        <input type="range" id="detectConfidenceSlider" min="0.3" max="0.9" step="0.05" value="0.60">
+                    </div>
+                    <div class="control-group">
+                        <button class="btn" id="detectBtn" onclick="predictDetection()" disabled>
+                            🚀 开始检测
+                        </button>
+                    </div>
+                    <div class="loading" id="detectLoading">
+                        <div class="spinner"></div>
+                        <div>正在进行目标检测...</div>
+                    </div>
+                </div>
+
+                <!-- 图像分割控制 -->
+                <div class="control-panel">
+                    <h3>🌊 图像分割 - 积水识别</h3>
+                    <div class="control-group">
+                        <label for="segmentModelSelect">分割模型</label>
+                        <select id="segmentModelSelect" onchange="updateSegmentConfidenceRange()">
+                            <option value="segment">YOLO11</option>
+                            <option value="segnet">SegNet</option>
+                        </select>
+                    </div>
+                    <div class="control-group">
+                        <label for="segmentConfidenceSlider">置信度阈值: <span id="segmentConfidenceValue">0.60</span></label>
+                        <input type="range" id="segmentConfidenceSlider" min="0.3" max="0.9" step="0.05" value="0.60">
+                    </div>
+                    <div class="control-group">
+                        <button class="btn" id="segmentBtn" onclick="predictSegmentation()" disabled>
+                            🚀 开始分割
+                        </button>
+                    </div>
+                    <div class="loading" id="segmentLoading">
+                        <div class="spinner"></div>
+                        <div>正在进行图像分割...</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 结果展示区域 -->
+            <div class="results-container">
+                <!-- 检测结果 -->
+                <div class="result-panel">
+                    <h3>🎯 目标检测结果</h3>
+                    <div id="detectResultContent">
+                        <div class="empty-result">等待检测结果...</div>
+                    </div>
+                </div>
+
+                <!-- 分割结果 -->
+                <div class="result-panel">
+                    <h3>🌊 图像分割结果</h3>
+                    <div id="segmentResultContent">
+                        <div class="empty-result">等待分割结果...</div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -399,8 +450,8 @@
 
     <script>
         let currentFileId = null;
-        let currentResults = null;
-
+        let detectResults = null;
+        let segmentResults = null;
 
         // 文件选择处理
         document.getElementById('fileInput').addEventListener('change', function(e) {
@@ -409,10 +460,12 @@
                 const reader = new FileReader();
                 reader.onload = function(e) {
                     document.getElementById('originalImage').src = e.target.result;
-                    document.getElementById('predictBtn').disabled = false;
-                    document.getElementById('resultsSection').style.display = 'block';
-                    document.getElementById('resultImage').src = '';
-                    displayResults(null);
+                    document.getElementById('originalImageSection').style.display = 'block';
+                    document.getElementById('detectBtn').disabled = false;
+                    document.getElementById('segmentBtn').disabled = false;
+                    
+                    // 清空之前的结果
+                    clearResults();
                 };
                 reader.readAsDataURL(file);
                 
@@ -422,9 +475,51 @@
         });
 
         // 置信度滑块处理
-        document.getElementById('confidenceSlider').addEventListener('input', function(e) {
-            document.getElementById('confidenceValue').textContent = e.target.value;
+        document.getElementById('detectConfidenceSlider').addEventListener('input', function(e) {
+            document.getElementById('detectConfidenceValue').textContent = e.target.value;
         });
+
+        document.getElementById('segmentConfidenceSlider').addEventListener('input', function(e) {
+            document.getElementById('segmentConfidenceValue').textContent = e.target.value;
+        });
+
+        // 根据目标检测模型更新置信度范围
+        function updateDetectConfidenceRange(){
+            const modelType = document.getElementById('detectModelSelect').value;
+            const slider = document.getElementById('detectConfidenceSlider');
+            const valueDisplay = document.getElementById('detectConfidenceValue');
+            
+            if (modelType === 'detr') {
+                slider.min = '0.45';
+                slider.max = '0.75';
+                slider.value = '0.60';
+                valueDisplay.textContent = '0.60';
+            } else {
+                slider.min = '0.3';
+                slider.max = '0.9';
+                slider.value = '0.60';
+                valueDisplay.textContent = '0.60';
+            }
+        }
+
+        // 根据分割模型更新置信度范围
+        function updateSegmentConfidenceRange() {
+            const modelType = document.getElementById('segmentModelSelect').value;
+            const slider = document.getElementById('segmentConfidenceSlider');
+            const valueDisplay = document.getElementById('segmentConfidenceValue');
+            
+            if (modelType === 'segnet') {
+                slider.min = '0';
+                slider.max = '0.6';
+                slider.value = '0.30';
+                valueDisplay.textContent = '0.30';
+            } else {
+                slider.min = '0.3';
+                slider.max = '0.9';
+                slider.value = '0.60';
+                valueDisplay.textContent = '0.60';
+            }
+        }
 
         // 上传文件
         async function uploadFile(file) {
@@ -449,20 +544,18 @@
             }
         }
 
-        // 预测图像
-        async function predictImage() {
+        // 目标检测预测
+        async function predictDetection() {
             if (!currentFileId) {
                 showMessage('请先上传图片', 'error');
                 return;
             }
 
-            const modelType = document.getElementById('modelSelect').value;
-            const confidence = parseFloat(document.getElementById('confidenceSlider').value);
+            const modelType = document.getElementById('detectModelSelect').value;
+            const confidence = parseFloat(document.getElementById('detectConfidenceSlider').value);
             
-            // 显示加载状态
-            document.getElementById('loading').style.display = 'block';
-            document.getElementById('resultsSection').style.display = 'none';
-            document.getElementById('predictBtn').disabled = true;
+            document.getElementById('detectLoading').style.display = 'block';
+            document.getElementById('detectBtn').disabled = true;
 
             try {
                 const response = await fetch('/predict', {
@@ -479,152 +572,225 @@
 
                 const result = await response.json();
                 if (response.ok && result.success) {
-                    currentResults = result;
-                    displayResults(result);
-                    showMessage('预测完成！', 'success');
+                    detectResults = result;
+                    displayDetectionResults(result);
+                    showMessage('检测完成！', 'success');
                 } else {
-                    showMessage('预测失败: ' + (result.detail || '未知错误'), 'error');
+                    showMessage('检测失败: ' + (result.detail || '未知错误'), 'error');
                 }
             } catch (error) {
-                showMessage('预测失败: ' + error.message, 'error');
+                showMessage('检测失败: ' + error.message, 'error');
             } finally {
-                document.getElementById('loading').style.display = 'none';
-                document.getElementById('predictBtn').disabled = false;
+                document.getElementById('detectLoading').style.display = 'none';
+                document.getElementById('detectBtn').disabled = false;
             }
         }
 
-        // 显示结果
-        function displayResults(result) {
-            if (result === null) {
-                // 清空所有结果展示
-                document.getElementById('resultImage').src = '';
-                clearStats();
-                clearDetections();
+        // 图像分割预测
+        async function predictSegmentation() {
+            if (!currentFileId) {
+                showMessage('请先上传图片', 'error');
                 return;
             }
 
-            // 显示结果图片
-            if (result.result_image) {    
-                document.getElementById('resultImage').src = result.result_image;
-            }
-
-            // 显示统计信息
-            displayStats(result.vehicle_stats, result.total_detections);
-
-            // 显示检测详情
-            displayDetections(result.detections);
-
-            // 显示结果区域
-            document.getElementById('resultsSection').style.display = 'block';
-        }
-
-        // 清空统计信息
-        function clearStats() {
-            const statsGrid = document.getElementById('statsGrid');
-            statsGrid.innerHTML = '<div style="text-align: center; color: #666; padding: 20px;">等待预测结果...</div>';
-        }
-
-        // 显示统计信息
-        function displayStats(vehicleStats, totalDetections) {
-            const statsGrid = document.getElementById('statsGrid');
-            statsGrid.innerHTML = '';
-
-            // 总检测数
-            const totalItem = document.createElement('div');
-            totalItem.className = 'stat-item';
-            totalItem.innerHTML = `
-                <div class="stat-number">${totalDetections}</div>
-                <div class="stat-label">总检测数</div>
-            `;
-            statsGrid.appendChild(totalItem);
-
-            // 各部位统计
-            for (const [part, count] of Object.entries(vehicleStats)) {
-                const statItem = document.createElement('div');
-                statItem.className = 'stat-item';
-                statItem.innerHTML = `
-                    <div class="stat-number">${count}</div>
-                    <div class="stat-label">${part}</div>
-                `;
-                statsGrid.appendChild(statItem);
-            }
-        }
-
-        // 清空检测详情
-        function clearDetections() {
-            const detectionList = document.getElementById('detectionList');
-            detectionList.innerHTML = '<div style="text-align: center; color: #666; padding: 20px;">等待预测结果...</div>';
-        }
-
-        // 显示检测详情
-        function displayDetections(detections) {
-            const detectionList = document.getElementById('detectionList');
-            detectionList.innerHTML = '';
-
-            if (detections.length === 0) {
-                detectionList.innerHTML = '<div style="text-align: center; color: #666; padding: 20px;">未检测到目标</div>';
-                return;
-            }
-
-            detections.forEach((detection, index) => {
-                const detectionItem = document.createElement('div');
-                detectionItem.className = 'detection-item';
-                detectionItem.innerHTML = `
-                    <div class="detection-info">
-                        <span class="detection-class">${detection.class_name}</span>
-                        <span class="detection-confidence">置信度: ${(detection.confidence * 100).toFixed(1)}%</span>
-                    </div>
-                    <div>检测 #${index + 1}</div>
-                `;
-                detectionList.appendChild(detectionItem);
-            });
-        }
-
-        // 显示消息
-        function showMessage(message, type) {
-            // 移除现有消息
-            const existingMessage = document.querySelector('.error, .success');
-            if (existingMessage) {
-                existingMessage.remove();
-            }
-
-            // 创建新消息
-            const messageDiv = document.createElement('div');
-            messageDiv.className = type;
-            messageDiv.textContent = message;
+            const modelType = document.getElementById('segmentModelSelect').value;
+            const confidence = parseFloat(document.getElementById('segmentConfidenceSlider').value);
             
-            // 插入到主内容区域
-            const mainContent = document.querySelector('.main-content');
-            mainContent.insertBefore(messageDiv, mainContent.firstChild);
+            document.getElementById('segmentLoading').style.display = 'block';
+            document.getElementById('segmentBtn').disabled = true;
 
-            // 3秒后自动移除
-            setTimeout(() => {
-                if (messageDiv.parentNode) {
-                    messageDiv.parentNode.removeChild(messageDiv);
+            try {
+                const response = await fetch('/predict', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        file_id: currentFileId,
+                        model_type: modelType,
+                        confidence: confidence
+                    })
+                });
+
+                const result = await response.json();
+                if (response.ok && result.success) {
+                    segmentResults = result;
+                    displaySegmentationResults(result);
+                    showMessage('分割完成！', 'success');
+                } else {
+                    showMessage('分割失败: ' + (result.detail || '未知错误'), 'error');
                 }
-            }, 3000);
+            } catch (error) {
+                showMessage('分割失败: ' + error.message, 'error');
+            } finally {
+                document.getElementById('segmentLoading').style.display = 'none';
+                document.getElementById('segmentBtn').disabled = false;
+            }
+        }
+
+        // 显示检测结果
+        function displayDetectionResults(result) {
+            const container = document.getElementById('detectResultContent');
+            
+            let html = '';
+            
+            // 显示结果图像
+            if (result.result_image) {
+                html += `
+                    <div class="image-container">
+                        <img src="${result.result_image}" alt="检测结果">
+                    </div>
+                `;
+            }
+            
+            // 显示统计信息
+            if (result.vehicle_stats && Object.keys(result.vehicle_stats).length > 0) {
+                html += '<div class="stats-section"><div class="stats-grid">';
+                html += `
+                    <div class="stat-item">
+                        <div class="stat-number">${result.total_detections}</div>
+                        <div class="stat-label">总检测数</div>
+                    </div>
+                `;
+                for (const [part, count] of Object.entries(result.vehicle_stats)) {
+                    html += `
+                        <div class="stat-item">
+                            <div class="stat-number">${count}</div>
+                            <div class="stat-label">${part}</div>
+                        </div>
+                    `;
+                }
+                html += '</div></div>';
+            }
+            
+            // 显示检测详情
+            if (result.detections && result.detections.length > 0) {
+                html += '<div class="detection-list">';
+                result.detections.forEach((detection, index) => {
+                    html += `
+                        <div class="detection-item">
+                            <div class="detection-info">
+                                <span class="detection-class">${detection.class_name}</span>
+                                <span class="detection-confidence">置信度: ${(detection.confidence * 100).toFixed(1)}%</span>
+                            </div>
+                            <div>检测 #${index + 1}</div>
+                        </div>
+                    `;
+                });
+                html += '</div>';
+            } else {
+                html += '<div class="empty-result">未检测到目标</div>';
+            }
+            
+            // 下载按钮
+            html += `
+                <div class="download-section">
+                    <button class="btn" onclick="downloadDetectionResult()" style="width: auto;">
+                        📥 下载检测结果
+                    </button>
+                </div>
+            `;
+            
+            container.innerHTML = html;
+        }
+
+        // 显示分割结果
+        function displaySegmentationResults(result) {
+            const container = document.getElementById('segmentResultContent');
+            
+            let html = '';
+            
+            // 显示结果图像
+            if (result.result_image) {
+                html += `
+                    <div class="image-container">
+                        <img src="${result.result_image}" alt="分割结果">
+                    </div>
+                `;
+            }
+            
+            // 显示统计信息（水面数量）
+            if (result.vehicle_stats && Object.keys(result.vehicle_stats).length > 0) {
+                html += '<div class="stats-section"><div class="stats-grid">';
+                html += `
+                    <div class="stat-item">
+                        <div class="stat-number">${result.total_detections}</div>
+                        <div class="stat-label">总检测数</div>
+                    </div>
+                `;
+                html += '</div></div>';
+            }
+            
+            // 显示检测详情
+            if (result.detections && result.detections.length > 0) {
+                html += '<div class="detection-list">';
+                result.detections.forEach((detection, index) => {
+                    html += `
+                        <div class="detection-item">
+                            <div class="detection-info">
+                                <span class="detection-class">${detection.class_name}</span>
+                                <span class="detection-confidence">置信度: ${(detection.confidence * 100).toFixed(1)}%</span>
+                            </div>
+                            <div>检测 #${index + 1}</div>
+                        </div>
+                    `;
+                });
+                html += '</div>';
+            } else {
+                html += '<div class="empty-result">未检测到水面</div>';
+            }
+            
+            // 下载按钮
+            html += `
+                <div class="download-section">
+                    <button class="btn" onclick="downloadSegmentationResult()" style="width: auto;">
+                        📥 下载分割结果
+                    </button>
+                </div>
+            `;
+            
+            container.innerHTML = html;
+        }
+
+        // 清空结果
+        function clearResults() {
+            document.getElementById('detectResultContent').innerHTML = '<div class="empty-result">等待检测结果...</div>';
+            document.getElementById('segmentResultContent').innerHTML = '<div class="empty-result">等待分割结果...</div>';
+            detectResults = null;
+            segmentResults = null;
         }
 
         // 下载检测结果
-        function downloadResult() {
-            if (!currentFileId || !currentResults) {
-                showMessage('没有可下载的结果', 'error');
+        function downloadDetectionResult() {
+            if (!detectResults) {
+                showMessage('没有可下载的检测结果', 'error');
                 return;
             }
-            
-            const modelType = currentResults.model_type;
-            const result_dir = currentResults.result_dir;
+            downloadResult(detectResults);
+        }
+
+        // 下载分割结果
+        function downloadSegmentationResult() {
+            if (!segmentResults) {
+                showMessage('没有可下载的分割结果', 'error');
+                return;
+            }
+            downloadResult(segmentResults);
+        }
+
+        // 通用下载函数
+        function downloadResult(result) {
+            const result_dir = result.result_dir;
             const downloadUrl = `/download?result_dir=${encodeURIComponent(result_dir)}`;
             
-            // 创建隐藏的下载链接
             const link = document.createElement('a');
             link.href = downloadUrl;
-            link.download = `result_${currentFileId}_${modelType}.jpg`;
+            link.download = `result_${result.file_id}_${result.model_type}.jpg`;
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
             
-            showMessage('开始下载检测结果', 'success');
+            showMessage('开始下载结果图像', 'success');
         }
 
         // 下载原始图片
@@ -636,7 +802,6 @@
             
             const downloadUrl = `/download_original/${currentFileId}`;
             
-            // 创建隐藏的下载链接
             const link = document.createElement('a');
             link.href = downloadUrl;
             link.download = `original_${currentFileId}.jpg`;
@@ -645,6 +810,27 @@
             document.body.removeChild(link);
             
             showMessage('开始下载原始图片', 'success');
+        }
+
+        // 显示消息
+        function showMessage(message, type) {
+            const existingMessage = document.querySelector('.error, .success');
+            if (existingMessage) {
+                existingMessage.remove();
+            }
+
+            const messageDiv = document.createElement('div');
+            messageDiv.className = type;
+            messageDiv.textContent = message;
+            
+            const mainContent = document.querySelector('.main-content');
+            mainContent.insertBefore(messageDiv, mainContent.firstChild);
+
+            setTimeout(() => {
+                if (messageDiv.parentNode) {
+                    messageDiv.parentNode.removeChild(messageDiv);
+                }
+            }, 3000);
         }
 
         // 拖拽上传
