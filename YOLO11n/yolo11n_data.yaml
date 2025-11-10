@@ -1,0 +1,11 @@
+path: .
+train: yolo11n_data\train\images
+val: yolo11n_data\val\images
+test: yolo11n_data/test/images
+
+nc: 3
+names: ['0', '1', '2']
+
+# 0: cc
+# 1: cm
+# 2: lt

@@ -1,0 +1,7 @@
+path: .
+train: segNet_data\train\images
+val: segNet_data\val\images
+test: segNet_data\test\images
+
+nc: 1
+names: ['water']

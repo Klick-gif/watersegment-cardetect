@@ -1,0 +1,7 @@
+path: .
+train: yolo11n_seg_data\train\images
+val: yolo11n_seg_data\val\images
+test: yolo11n_seg_data\test\images
+
+nc: 1
+names: ['water']
