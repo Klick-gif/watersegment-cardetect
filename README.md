@@ -37,7 +37,7 @@
 - [贡献指南](#-贡献指南)
 - [许可证](#-许可证)
 
-- [项目模型训练微调方面扩展](#-项目模型训练微调方面扩展)
+- [模型微调指南](#-模型微调指南)
   - [YOLO11](#YOLO11)
   - [DETR](#DETR)
   - [segNet](#segNet)
@@ -250,36 +250,6 @@ app/
 ├── results/                   # 结果输出目录
 └── static/                    # 静态文件目录
 ```
-
----
-
-## 🔬 模型介绍
-
-### YOLO11 模型
-
-- **类型**：目标检测 / 图像分割
-- **功能**：车辆检测和水面分割
-- **特点**：实时检测，高精度，轻量级
-- **应用**：车辆部件识别、水面区域检测
-- **优势**：速度快，适合实时应用
-
-### DETR (DEtection TRansformer) 模型
-
-- **类型**：目标检测
-- **功能**：车辆部件精细检测
-- **特点**：基于Transformer架构，端到端检测
-- **应用**：车窗、车门、车轮等车辆部件识别
-- **优势**：精度高，无需NMS后处理
-- **类别**：车窗、车门、车轮
-
-### SegNet 模型
-
-- **类型**：语义分割
-- **功能**：水面语义分割
-- **特点**：编码器-解码器架构，像素级分割
-- **应用**：积水区域精确分割
-- **输出**：水面分割掩码和置信度
-- **优势**：分割精度高，边界清晰
 
 ---
 
@@ -765,24 +735,52 @@ ultralytics YOLO
 ## 📄 许可证
 MIT License
 
+## 🔬 模型介绍
 
+### YOLO11 模型
 
+- **类型**：目标检测 / 图像分割
+- **功能**：车辆检测和水面分割
+- **特点**：实时检测，高精度，轻量级
+- **应用**：车辆部件识别、水面区域检测
+- **优势**：速度快，适合实时应用
 
-## YOLO11-
+### DETR (DEtection TRansformer) 模型
+
+- **类型**：目标检测
+- **功能**：车辆部件精细检测
+- **特点**：基于Transformer架构，端到端检测
+- **应用**：车窗、车门、车轮等车辆部件识别
+- **优势**：精度高，无需NMS后处理
+- **类别**：车窗、车门、车轮
+
+### SegNet 模型
+
+- **类型**：语义分割
+- **功能**：水面语义分割
+- **特点**：编码器-解码器架构，像素级分割
+- **应用**：积水区域精确分割
+- **输出**：水面分割掩码和置信度
+- **优势**：分割精度高，边界清晰
+
+---
+
+## 🎯 模型微调指南
+### YOLO11
 基于Yolo11基础模型进行微调，得到的目标检测模型以及水面分割模型，微调代码切换fine tuning分支，还未合并
 微调部分就是YOLO11中的代码，是clone官方开源的方法，修改yaml文件进行自己模型的微调<a href="https://github.com/ultralytics/ultralytics">YOLO官方</a>
 下面先展示的是我系统的使用方法与设计，可供大家学习交流。
 
 
-### 模型微调
-#### 1. 分类依据：
+#### 模型微调
+##### 1. 分类依据：
 |车窗及以上|车轮顶部至车窗下沿|车轮顶部及以下|
 |----|----|----|
 |水|其他|水|
 
 <img alt="image" src="https://github.com/user-attachments/assets/187fe31e-a65d-4bdf-b0e0-301eee96b98b" />
 
-#### 2. 数据来源--数据标注
+##### 2. 数据来源--数据标注
 城市洪涝场景下的图像蕴含了积水水面和车辆淹没部位信息，为开展积水自动识别和车辆淹没部位自动判别提供了数据条件。
 **标注软件**：X-Anylabeling，第一组目标检测：从图像中标注出矩形边界框和车辆淹没类别，第二组语义分割：从图像中划分出水面多边形边界。
 <img src="https://github.com/user-attachments/assets/87d220e2-5cd6-443c-a4fc-e9a821e613de" />
@@ -798,7 +796,7 @@ test
    ├── images
    └── labels
 
-#### 3. 模型训练
+##### 3. 模型训练
 一开始想用最小的模型训练出最好的效果，一个是省时间，一个是能够让更多人的各种机器都能训练，具有普遍意义，所以选取的是一个 **yolo11n.pt**。
 目标检测模型训练代码，分割模型也类似
 ```python
@@ -841,4 +839,185 @@ print(f'F1        : {f1:.3f}')
 | cuDNN        | 90100  |
 | numpy        | 1.26.4 |
 
+### DETR模型微调
 
+#### 数据准备
+1. **数据格式转换**: 将YOLO格式数据转换为COCO格式
+2. **目录结构**:
+DETR/
+├── __pycache__/                    # Python编译缓存文件
+│   ├── dataset.cpython-310.pyc
+│   └── timeT.cpython-310.pyc
+├── coco_format_data/               # COCO格式数据集
+│   ├── train_annotations.json      # 训练集标注文件
+│   ├── val_annotations.json        # 验证集标注文件
+│   └── test_annotations.json       # 测试集标注文件
+├── detr-r50/                       # DETR-ResNet50模型文件目录
+├── dataset.py                      # 数据集加载器（FloodDetectionDataset类）
+├── detr_train.py                   # DETR模型训练脚本
+├── detr_val.py                     # DETR模型验证脚本
+├── download_resnet.py              # ResNet模型下载脚本
+├── prediction_result.jpg            # 预测结果示例图片
+├── single.py                       # 单张图片预测脚本
+├── test_image.jpg                   # 测试图片
+├── timeT.py                        # 训练时间跟踪器
+└── train.py                        # 训练脚本
+
+
+#### 训练配置
+```python
+# 主要训练参数
+num_epochs = 30
+batch_size = 8
+learning_rate = 1e-4
+image_size = 640
+num_classes = 3  # 车窗、车门、车轮
+```
+
+#### 训练命令
+```bash
+cd DETR
+python detr_train.py
+```
+
+#### 关键特性
+- **分层学习率**: backbone使用1e-5，其他层使用1e-4
+- **梯度裁剪**: 防止梯度爆炸
+- **学习率调度**: 线性学习率调度
+- **自动设备检测**: 支持GPU和CPU训练
+
+### SegNet模型微调
+
+#### 数据准备
+1. **数据格式**: 需要图像和对应的二值化mask
+2. **目录结构**:
+
+
+### SegNet
+segNet/
+├── __pycache__/                    # Python编译缓存文件
+│   ├── test.cpython-310.pyc
+│   ├── test_fixed.cpython-310.pyc
+│   ├── timeT.cpython-310.pyc
+│   └── train.cpython-310.pyc
+├── runs/                           # 训练运行结果目录
+│   └── segnet/
+├── segNet_data/                    # SegNet数据集目录
+│   ├── train/                      # 训练集
+│   │   ├── images/                 # 训练图片
+│   │   ├── labels/                 # 标签文件
+│   │   └── masks/                  # 掩码图片
+│   ├── val/                        # 验证集
+│   │   ├── images/                 # 验证图片
+│   │   ├── labels/                 # 标签文件
+│   │   └── masks/                  # 掩码图片
+│   └── test/                       # 测试集
+│       ├── images/                 # 测试图片
+│       ├── labels/                 # 标签文件
+│       └── masks/                  # 掩码图片
+├── seg_data.yaml                   # 数据集配置文件
+├── test.py                         # 测试脚本（WaterSegmentationPredictor类）
+├── test_fixed.py                   # 修复版测试脚本
+├── test_image.jpg                   # 测试图片
+├── timeT.py                        # 训练时间跟踪器
+├── train.py                        # 训练脚本（SegNet模型实现）
+├── val.py                          # 验证脚本
+└── prediction_result.png            # 预测结果示例图片
+
+
+#### 训练配置
+```python
+# 主要训练参数
+epochs = 200
+batch_size = 16
+learning_rate = 0.001
+img_size = 640
+num_classes = 1  # 水面分割
+```
+
+#### 训练命令
+```bash
+cd segNet
+python train.py --data-yaml seg_data.yaml --epochs 200 --batch-size 16
+```
+
+#### 关键特性
+- **数据增强**: 随机翻转、亮度调整
+- **IoU评估**: 训练过程中实时计算交并比
+- **模型检查点**: 自动保存最佳模型和最新模型
+- **学习率调度**: 余弦退火学习率
+
+### 数据集配置
+
+#### DETR数据集配置
+```yaml
+# 数据集配置文件示例
+train_images: "path/to/train/images"
+val_images: "path/to/val/images"
+categories:
+  - id: 0
+    name: "车窗"
+  - id: 1  
+    name: "车门"
+  - id: 2
+    name: "车轮"
+```
+
+#### SegNet数据集配置
+```yaml
+# seg_data.yaml
+path: /path/to/dataset
+train: images/train
+val: images/val
+test: images/test
+
+nc: 1  # 类别数
+names: ['水面']  # 类别名称
+```
+
+### 训练监控
+
+#### 训练指标
+- **DETR**: 训练损失、验证损失、检测精度
+- **SegNet**: 训练损失、验证损失、IoU指标
+
+#### 时间跟踪
+```python
+from timeT import TimeTracker
+time_tracker = TimeTracker()
+time_tracker.on_train_start()
+# 训练过程...
+time_tracker.on_train_end()
+```
+
+### 模型保存与加载
+
+#### DETR模型保存
+```python
+model.save_pretrained("detr_vehicle_flood_final")
+processor.save_pretrained("detr_vehicle_flood_final")
+```
+
+#### SegNet模型保存
+```python
+torch.save(checkpoint, 'runs/segnet/best.pth')
+```
+
+### 性能优化建议
+
+1. **GPU内存优化**:
+   - 适当减小batch_size
+   - 使用梯度累积
+   - 启用混合精度训练
+
+2. **训练加速**:
+   - 使用多线程数据加载
+   - 启用pin_memory加速数据传输
+   - 使用预训练权重初始化
+
+3. **模型选择**:
+   - DETR适合精细检测任务
+   - SegNet适合像素级分割任务
+   - 根据任务需求选择合适的模型
+
+// ... existing code ...
