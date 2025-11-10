@@ -844,6 +844,7 @@ print(f'F1        : {f1:.3f}')
 #### 数据准备
 1. **数据格式转换**: 将YOLO格式数据转换为COCO格式
 2. **目录结构**:
+```bash
 DETR/
 ├── __pycache__/                    # Python编译缓存文件
 │   ├── dataset.cpython-310.pyc
@@ -862,7 +863,7 @@ DETR/
 ├── test_image.jpg                   # 测试图片
 ├── timeT.py                        # 训练时间跟踪器
 └── train.py                        # 训练脚本
-
+```
 
 #### 训练配置
 ```python
@@ -894,6 +895,7 @@ python detr_train.py
 
 
 ### SegNet
+```bash
 segNet/
 ├── __pycache__/                    # Python编译缓存文件
 │   ├── test.cpython-310.pyc
@@ -923,7 +925,7 @@ segNet/
 ├── train.py                        # 训练脚本（SegNet模型实现）
 ├── val.py                          # 验证脚本
 └── prediction_result.png            # 预测结果示例图片
-
+```
 
 #### 训练配置
 ```python
