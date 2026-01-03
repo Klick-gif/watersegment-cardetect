@@ -63,7 +63,9 @@
 - 提供实时检测和分析能力
 - 支持多种深度学习模型（YOLO11、DETR、SegNet）
 
-![背景](https://github.com/user-attachments/assets/fbb87de7-d561-4a87-81a6-167009beb1ee)
+![背景1](./image/背景1.png)
+![背景2](./image/背景2.png)
+
 
 
 ---
@@ -469,8 +471,8 @@ server {
    - 点击下载按钮保存结果图片
    - 支持下载检测结果和原始图片
   
-<img width="1296" height="943" alt="上传界面" src="https://github.com/user-attachments/assets/fc9dc9da-1da7-4934-843f-ae9a3d3479b8" />
-<img width="1283" height="949" alt="前端界面" src="https://github.com/user-attachments/assets/0189bbbe-b82c-4990-aebf-0cae52d8b901" />
+<img width="1296" height="943" alt="上传界面" src="./image/上传图片界面.png" />
+<img width="1283" height="949" alt="展示界面" src="./image/展示界面.png" />
 
 
 ### API使用示例
@@ -782,14 +784,14 @@ MIT License
 |车窗及以上|车轮顶部至车窗下沿|车轮顶部及以下|
 |----|----|----|
 |水|其他|水|
-<img width="1283" height="949" alt="分类依据" src="https://github.com/user-attachments/assets/e062c68e-f0a5-415a-a881-2d726e3b4fa3" />
+<img width="1283" height="949" alt="分类依据" src="./image/分类依据.png" />
 
 
 
 ##### 2. 数据来源--数据标注
 城市洪涝场景下的图像蕴含了积水水面和车辆淹没部位信息，为开展积水自动识别和车辆淹没部位自动判别提供了数据条件。
 **标注软件**：X-Anylabeling，第一组目标检测：从图像中标注出矩形边界框和车辆淹没类别，第二组语义分割：从图像中划分出水面多边形边界。
-<img width="1283" height="949" alt="标注软件" src="https://github.com/user-attachments/assets/5dcc6505-bf46-4dca-a0d5-8558f6af9688" />
+<img width="1283" height="949" alt="标注软件" src="./image/标注软件.png" />
 
 标注完成后，可以创建一个classes.txt文件，里面写三行标注的类别，我们统一用的都是0，1，2，打包导出txt文件。（这里注意软件中标了多少类别，就写多少行类别，多或少都会导出失败）
 将标注好的图片分在三个文件中，训练集，验证集，测试集按照6：2：2的比例划分，也是比较经典的分法。
